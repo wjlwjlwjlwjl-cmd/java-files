@@ -52,13 +52,66 @@ public class Test{
         System.out.println(val2);
         System.out.println(Float.MIN_VALUE);
 
-        //Java的字符中可以存放整形
+        //Java的字符中可以存放整形。Java中采取unicode表示整形，占用两个字节，可以表示中文
         char ch1 = 1;
         char ch2 = 'A';
         char ch3 = '王';
         System.out.println(ch1);
         System.out.println(ch2);
         System.out.println(ch3);
+
+        //布尔类型的变量(Java中其不能与int类型相互转换，其包装类型为Boolean)
+        boolean val3 = true;
+        System.out.println(val3);
+
+        //类型转换
+        //自动类型转换（隐式）
+        int val4 = 10;
+        double val5;
+        val5 = val4;
+        System.out.println(val5);//大的类型可以被小的类型经过转换后赋值，否则报错（double与float之间除外）
+        //强制类型转换
+        int val6 = (int)10.0;
+        System.out.println(val6);
+        byte val7 = 100;//自动
+        byte val8 = (byte)300;
+        System.out.println(val8);
+        char val10 = 20000;
+        System.out.println(val10);
+        //boolean val9 = (boolean)100;不相干的类型不能互相转换
+        //总结：java的隐式类型转换只适用于从小的类型赋值到大的类型，反之只能通过强制类型转换
+    
+        //类型提升：发生在不同数据进行相互运算时
+        //两个规则：
+        //1、小的类型会转换为大的类型
+        //2、对于short byte char这些小于int类型的类型，因为计算机在内存中读取数据的基本单位是4kb，
+        //所以会被先提升为int，再进行运算
+        int val11 = 10;
+        long val12 = 10;
+        System.out.println(val11 + val12);
+        int val13 = (int)(val11 + val12);
+        System.out.println(val13);
+        // byte val14 = 10;
+        // byte val15 = 10;
+        // byte val16 = val14 + val15;//整型提升
+
+        //字符串类型：
+        String s1 = "My name is";
+        String s2 = " Wang Jiale";
+        System.out.println(s1);
+        System.out.println(s1 + s2);
+        //int -> String
+        int val17 = 100;
+        //方法一：
+        String str1 = val17 + "";
+        System.out.println(str1);
+        //方法二
+        String str2 = String.valueOf(val17);
+        System.out.println(str2);
+        //String -> int
+        String str3 = "1000";
+        int val18 = Integer.parseInt(str3);
+        System.out.println(val18);
     }
 }
 //javac -d 指定目录名 -author -version -encoding UTF-8-charset UTF-8 Test.java
