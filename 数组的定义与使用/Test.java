@@ -17,6 +17,23 @@ public class Test {
         Function(arr1);
         System.out.println(arr1[0]);
         testArray();
+        int[] arr5 = {9, 4, 3, 8, 5, 1, 7};
+        bubbleSort(arr5);
+        for(int i = 0; i < arr5.length; i++)
+        {
+            System.out.print(arr5[i]);
+        }
+
+        //二维数组
+        int[][] arr6 = {{1, 2, 3}, {1, 2, 3}, {1, 2, 3}};
+        for(int row = 0; row < arr6.length; row++)
+        {
+            for(int col = 0; col < arr6[row].length; col++)
+            {
+                System.out.print(arr6[row][col]);
+            }
+            System.out.println("");
+        }
     }
 
     //数组初始化的默认值——所以不指定值的数组定义叫做动态初始化，还可以后期再进行指定
@@ -60,5 +77,30 @@ public class Test {
         int[] arr = {1, 2, 3, 4, 5, 6};
         String newStr = Arrays.toString(arr);
         System.out.println(newStr);
+    }
+
+    //冒泡排序
+    public static int[] bubbleSort(int[] arr)
+    {
+        //排降序
+        int flag = 0;
+        for(int i = 0; i < arr.length; i++)
+        {
+            for(int j = 1; j < arr.length; j++)
+            {
+                if(arr[j] > arr[j - 1])
+                {
+                    arr[j] = arr[j] ^ arr[j - 1];
+                    arr[j - 1] = arr[j] ^ arr[j - 1];
+                    arr[j] = arr[j] ^ arr[j - 1];
+                    flag = 1;
+                }
+            }
+            if(flag == 0)
+            {
+                break;
+            }
+        }
+        return arr;
     }
 }
