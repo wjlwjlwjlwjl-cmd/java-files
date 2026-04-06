@@ -1,0 +1,108 @@
+Classfile /home/wang/java-files/JavaSE/Method/Method.class
+  Last modified Apr 6, 2026; size 580 bytes
+  SHA-256 checksum 91c4ab898b70fd17ca07e4b1c3f96269fccb473e936a6b28884836edc7ebe4ca
+  Compiled from "Method.java"
+public class JavaSE.Method.Method
+  minor version: 0
+  major version: 70
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #14                         // JavaSE/Method/Method
+  super_class: #2                         // java/lang/Object
+  interfaces: 0, fields: 0, methods: 4, attributes: 1
+Constant pool:
+   #1 = Methodref          #2.#3          // java/lang/Object."<init>":()V
+   #2 = Class              #4             // java/lang/Object
+   #3 = NameAndType        #5:#6          // "<init>":()V
+   #4 = Utf8               java/lang/Object
+   #5 = Utf8               <init>
+   #6 = Utf8               ()V
+   #7 = Fieldref           #8.#9          // java/lang/System.out:Ljava/io/PrintStream;
+   #8 = Class              #10            // java/lang/System
+   #9 = NameAndType        #11:#12        // out:Ljava/io/PrintStream;
+  #10 = Utf8               java/lang/System
+  #11 = Utf8               out
+  #12 = Utf8               Ljava/io/PrintStream;
+  #13 = Methodref          #14.#15        // JavaSE/Method/Method.add:(II)I
+  #14 = Class              #16            // JavaSE/Method/Method
+  #15 = NameAndType        #17:#18        // add:(II)I
+  #16 = Utf8               JavaSE/Method/Method
+  #17 = Utf8               add
+  #18 = Utf8               (II)I
+  #19 = Methodref          #20.#21        // java/io/PrintStream.println:(I)V
+  #20 = Class              #22            // java/io/PrintStream
+  #21 = NameAndType        #23:#24        // println:(I)V
+  #22 = Utf8               java/io/PrintStream
+  #23 = Utf8               println
+  #24 = Utf8               (I)V
+  #25 = Double             1.1d
+  #27 = Double             2.2d
+  #29 = Methodref          #14.#30        // JavaSE/Method/Method.add:(DD)D
+  #30 = NameAndType        #17:#31        // add:(DD)D
+  #31 = Utf8               (DD)D
+  #32 = Methodref          #20.#33        // java/io/PrintStream.println:(D)V
+  #33 = NameAndType        #23:#34        // println:(D)V
+  #34 = Utf8               (D)V
+  #35 = Utf8               Code
+  #36 = Utf8               LineNumberTable
+  #37 = Utf8               main
+  #38 = Utf8               ([Ljava/lang/String;)V
+  #39 = Utf8               SourceFile
+  #40 = Utf8               Method.java
+{
+  public JavaSE.Method.Method();
+    descriptor: ()V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: return
+      LineNumberTable:
+        line 3: 0
+
+  public static void main(java.lang.String[]);
+    descriptor: ([Ljava/lang/String;)V
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=5, locals=1, args_size=1
+         0: getstatic     #7                  // Field java/lang/System.out:Ljava/io/PrintStream;
+         3: iconst_1
+         4: iconst_2
+         5: invokestatic  #13                 // Method add:(II)I
+         8: invokevirtual #19                 // Method java/io/PrintStream.println:(I)V
+        11: getstatic     #7                  // Field java/lang/System.out:Ljava/io/PrintStream;
+        14: ldc2_w        #25                 // double 1.1d
+        17: ldc2_w        #27                 // double 2.2d
+        20: invokestatic  #29                 // Method add:(DD)D
+        23: invokevirtual #32                 // Method java/io/PrintStream.println:(D)V
+        26: return
+      LineNumberTable:
+        line 5: 0
+        line 6: 11
+        line 7: 26
+
+  public static int add(int, int);
+    descriptor: (II)I
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: iload_0
+         1: iload_1
+         2: iadd
+         3: ireturn
+      LineNumberTable:
+        line 10: 0
+
+  public static double add(double, double);
+    descriptor: (DD)D
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=4, locals=4, args_size=2
+         0: dload_0
+         1: dload_2
+         2: dadd
+         3: dreturn
+      LineNumberTable:
+        line 14: 0
+}
+SourceFile: "Method.java"
