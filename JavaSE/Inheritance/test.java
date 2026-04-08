@@ -1,6 +1,6 @@
 package JavaSE.Inheritance;
 
-public class test extends Base{
+public class test extends BaseP{
     public static void main(String[] args){
         test t = new test();
         System.out.println(t.b);
@@ -10,12 +10,12 @@ public class test extends Base{
     }
 }
 
-class Base {
+class BaseP {
     protected int b = 0;
     final int d = 10;
 }
 
-class C extends Base{
+class C extends BaseP{
     int c = 0;
     public void getD(){
         System.out.println(d);
