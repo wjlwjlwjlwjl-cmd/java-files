@@ -223,7 +223,8 @@ arr2 = new int[]{1, 2, 3};
 ## 5.2 二维数组
 
 ```java
-int[][] arr = new int[3][3]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+int[][] arr = new int[3][3]; //要么动态初始化
+int[][] arr = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}; //要么静态初始化
 ```
 
 对于二维数组来说，行数不可以省略，列数可以省略。对于函数省略的数组，我们把它叫做**不规则的二维数组**，可以通过以下方式指定每一行的大小
@@ -309,7 +310,7 @@ Java中，所有类（除了 Object 自己），都继承自 Object 类，其中
 ```java
 public class Date{
     public int _year, _month, _day;
-    public class Date(){
+    public Date(){
         this(0, 0, 0);
     }
     public class Date(int year, int month, int day){
@@ -598,3 +599,72 @@ class NameComparator implements Comparator<Student>{
 
 * 局部内部类：定义在外部类的方法体或者{}中，只能在定义的时候被使用
 * 匿名内部类：用于创建只使用一次的类，可以继承一个类后者实现一个方法，也和普通类一样，定义时不能直接写执行语句
+
+# 7. 异常
+
+Java 的异常抛出、捕获的机制和C++思路上几乎一致，都是按照函数调用栈往上寻找 catch 语句。只是具体语法细节、异常种类上有所不同
+
+## 7.1 异常的体系结构
+
+1. **Throwable**，是异常体系的顶层类，派生出 Error 和 Exception两个子类
+2. **Error**，包括栈溢出、内存不足等 JVM 无法解决的问题
+3. **Exception**，可以由代码进行处理，可以不杀死程序，我们一般说的异常，就是指的 Exception
+4. 其他所有的异常，要么继承自 Error，要么继承自 Exception
+5. 所以类似于 C++ 的 const std::exception& e ，可以使用 Exception 来捕获所有异常
+
+## 7.2 异常的分类
+
+1. **编译时异常**，也称作受检查异常，即 javac 生成 .class 字节码文件这一阶段
+2. **运行时异常**，也称作非受检查异常，包括空指针访问、数组越界等
+
+## 7.3 异常处理
+
+### 7.3.1 throw
+
+抛出异常，指定一个异常对象即可。异常一旦抛出，后面的代码就不会执行，可以抛出Exception的子类，也可以是自定义的异常
+
+### 7.3.2 throws
+
+用来只是抛出的是哪个异常，跟在方法声明的参数列表之后
+
+```java
+class getVal(int[] arr, int index) throws ArrayIndexOutOfBoundsException{
+    //...
+}
+```
+
+throws 并不是真的抛出异常的动作，而是将处理异常的任务交给调用者
+
+### 7.3.3 try-catch finally
+
+其实这里使用和C++几乎是一样的。不过 catch 可以一次捕获多个异常，例如
+
+```java
+catch (ArrayIndexOutofBoundsException | NullPointerException e){
+    //...
+}
+```
+
+finally 是捕获最后的底牌，用处就像 C++ 的 catch(...)，连它都没有的话，那么就会终止程序
+
+### 7.3.4 查看调用栈信息
+
+```java
+e.printStackTrace();
+```
+
+使用的目的类似 C++ 的 e.what()，不过这里展示的是函数调用栈以及异常信息
+
+## 自定义Exception
+
+* 一般来说继承自 Exception 或者 RuntimeException，可以自定义对错误信息
+* 继承自 Exception 是受查异常，后者是非受查异常
+
+```java
+class UserNameException extends Exception {
+	public UserNameException(String message) {
+		super(message);
+	}
+}
+```
+
