@@ -1,5 +1,14 @@
-public class LinkedList {
+import java.util.LinkedList;
+public class List {
     public static void main(String[] args){
+    }
+
+    public static void testUtilLinkedList(){
+        LinkedList list = new LinkedList();
+        list.add(1);
+    }
+
+    public static void testLinkedList(){
         LL ll = new LL();
         ll.addFirst(1);
         ll.addFirst(2);
@@ -16,6 +25,7 @@ public class LinkedList {
         System.out.println(ll.contains(3));
         System.out.println(ll.contains(9));
         ll.range();
+
     }
 }
 
