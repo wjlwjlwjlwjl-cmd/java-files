@@ -2,18 +2,23 @@ import java.util.Random;
 import java.util.Collections;
 import java.util.ArrayList;
 public class Sort{
+    private static Random random = new Random();
     public static void main(String[] args){
-        ArrayList<Integer> arr = new ArrayList<>(10);
-        Random random = new Random();
-        for(int i = 0; i < 10; i++){
-            arr.add(random.nextInt(20));
+        ArrayList<Integer> arr = new ArrayList<>();
+        for(int i = 0; i < 20; i++){
+            arr.add(random.nextInt(30));
         }
 
-        //bubbleSort(arr);
-        insertSort(arr);
+        //insertSort(arr, 0, arr.size() - 1);
+        //shellSort(arr);
+        //quickSort(arr, 0, arr.size() - 1);
+        //mergeSort(arr);
+        //heapSort(arr);
+        //selectSort(arr);
+        countSort(arr);
 
-        for(int i = 0; i < 10; i++){
-            System.out.print(arr.get(i) + " ");
+        for(int j = 0; j < arr.size(); j++){
+            System.out.print(arr.get(j) + " ");
         }
         System.out.println();
     }
@@ -22,8 +27,8 @@ public class Sort{
         if(arr.size() == 1){
             return;
         }
-        boolean flag = false;
         for(int i = 0; i < arr.size(); i++){
+            boolean flag = false;
             for(int j = 1; j < arr.size() - i; j++){
                 if(arr.get(j - 1) > arr.get(j)){
                     Collections.swap(arr, j - 1, j);
@@ -36,22 +41,185 @@ public class Sort{
         }
     }
 
-    public static void insertSort(ArrayList<Integer> arr){
-        int n = arr.size();
-        if(n == 1) return; //1 4 7 2
-        for(int i = 1; i < n; i++){
+    public static void insertSort(ArrayList<Integer> arr, int left, int right){
+        for(int i = left; i < right; i++){
             int end = i;
-            int tmp = arr.get(end);
-            while(end > 0){
-                if(arr.get(end - 1) > tmp){
-                    arr.set(end, arr.get(end - 1));
+            int tmp = arr.get(end + 1);
+            while(end >= left){
+                if(arr.get(end) > tmp){
+                    arr.set(end + 1, arr.get(end));
                     end--;
                 }
                 else{
                     break;
                 }
             }
-            arr.set(end, tmp);
+            arr.set(end + 1, tmp);
+        }
+    }
+
+    public static void shellSort(ArrayList<Integer> arr){
+        int n = arr.size();
+        int gap = arr.size();
+        while(gap > 1){
+            gap = gap / 2;
+            for(int i = 0; i < n - gap; i++){
+                int end = i;
+                int tmp = arr.get(end + gap);
+                while(end >= 0){
+                    if(arr.get(end) > tmp){
+                        arr.set(end + gap, arr.get(end));
+                        end -= gap;
+                    }
+                    else{
+                        break;
+                    }
+                }
+                arr.set(end + gap, tmp);
+            }
+        }
+    }
+
+    public static void quickSort(ArrayList<Integer> arr, int begin, int end){
+        if(begin >= end){
+            return;
+        }
+        if(end - begin + 1 <= 10){
+            insertSort(arr, begin, end);
+            return;
+        }
+        int left = begin;
+        int right = end;
+
+        int rand = random.nextInt(end - begin + 1) + begin;
+        Collections.swap(arr, rand, begin);
+
+        int pivot = arr.get(begin); //pivot是基准值
+        while(left < right){
+            while(left < right && arr.get(right) >= pivot){
+                right--;
+            }
+            while(left < right && arr.get(left) <= pivot){
+                left++;
+            }
+            Collections.swap(arr, left, right);
+        }
+        Collections.swap(arr, left, begin);
+        quickSort(arr, begin, left - 1);
+        quickSort(arr, left + 1, end);
+    }
+
+    public static void mergeSort(ArrayList<Integer> arr){
+        ArrayList<Integer> buffer = new ArrayList<>(arr);
+        _mergeSort(arr, 0, arr.size() - 1, buffer);
+    }
+
+    public static void _mergeSort(ArrayList<Integer> arr, int begin, int end, ArrayList<Integer> buffer){
+        if(begin >= end){
+            return;
+        }
+        int midi = (begin + end) / 2;
+        _mergeSort(arr, begin, midi, buffer);
+        _mergeSort(arr, midi + 1, end, buffer);
+        int left = begin;
+        int right = midi + 1;
+        int i = begin;
+        while(left <= midi && right <= end){
+            if(arr.get(left) < arr.get(right)){
+                buffer.set(i++, arr.get(left++));
+            }
+            else{
+                buffer.set(i++, arr.get(right++));
+            }
+        }
+        while(left <= midi){
+            buffer.set(i++, arr.get(left++));
+        }
+        while(right <= end){
+            buffer.set(i++, arr.get(right++));
+        }
+        for(int j = begin; j <= end; j++){
+            arr.set(j, buffer.get(j));
+        }
+    }
+
+    public static void heapSort(ArrayList<Integer> arr){
+        int n = arr.size();
+        for(int i = (n - 1 - 1) / 2; i >= 0; i--){
+            adjustDown(arr, i, arr.size() - 1);
+        }
+        int end = arr.size() - 1;
+        while(end > 0){
+            Collections.swap(arr, 0, end);
+            end--;
+            adjustDown(arr, 0, end);
+        }
+    }
+
+    private static void adjustDown(ArrayList<Integer> arr, int parent, int end){
+        int child = parent * 2 + 1;
+        while(child <= end){
+            if(child + 1 <= end && arr.get(child) < arr.get(child + 1)){
+                child += 1;
+            }
+            if(arr.get(child) > arr.get(parent)){
+                Collections.swap(arr, child, parent);
+                parent = child;
+                child = parent * 2 + 1;
+            }
+            else{
+                break;
+            }
+        }
+    }
+
+    public static void selectSort(ArrayList<Integer> arr){
+        int left = 0, right = arr.size() - 1;
+        for(int i = 0; i < arr.size(); i++){
+            if(left >= right){
+                break;
+            }
+            int min = left;
+            int max = left;
+            for(int j = left; j <= right; j++){
+                if(arr.get(j) < arr.get(min)){
+                    min = j;
+                }
+                if(arr.get(j) > arr.get(max)){
+                    max = j;
+                }
+            }
+            Collections.swap(arr, left, min);
+            if(max == left){
+                max = min;
+            }
+            Collections.swap(arr, right, max);
+            left++;
+            right--;
+        }
+    }
+
+    public static void countSort(ArrayList<Integer> arr){
+        int max = Integer.MIN_VALUE, min = Integer.MAX_VALUE;
+        for(int i = 0; i < arr.size(); i++){
+            if(arr.get(i) > max){
+                max = arr.get(i);
+            }
+            if(arr.get(i) < min){
+                min = arr.get(i);
+            }
+        }
+        int size = max - min + 1;
+        int[] buf = new int[size];
+        for(int i = 0; i < arr.size(); i++){
+            buf[arr.get(i) - min]++;
+        }
+        int m = 0;
+        for(int n = 0; n < size; n++){
+            while(buf[n] != 0){
+                arr.set(m++, n + min);
+                buf[n]--;
+            }
         }
     }
 }
