@@ -1,4 +1,3 @@
-import java.util.Collections;
 import java.util.Arrays;
 public class test {
     public static void main(String[] strs){
@@ -10,11 +9,6 @@ public class test {
     }
 
     public static int[] advantageCount(int[] nums1, int[] nums2) {
-        //8 12 24 32
-        //11 13 25 32
-        
-        //tmp: 12 24 32 8
-        //ret: 24 32 8 12
         int n = nums1.length;
         Integer[] index = new Integer[n]; 
         int[] ret = new int[n];
