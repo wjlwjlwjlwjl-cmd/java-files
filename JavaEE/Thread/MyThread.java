@@ -1,4 +1,4 @@
-package JavaEE.Thread; 
+package JavaEE.Thread;
 
 //Thread，在 java.lang 包中，但是这个包现在是 java 默认导入的
 
@@ -26,7 +26,43 @@ public class MyThread{
         * 
         * 但是这里使用外部静态变量可以，因为转换了语法，这里是内部类访问外部类静态成员变量（因为函数式接口是只有一个方法的接口，其实就是一个抽象类）
         */
-        new Test().test2();
+        //new Test().test2();
+
+        new GetState().testState();
+    }
+}
+
+class GetState{
+    public void testState(){
+        Thread t = new Thread(()->{
+            try{
+                Thread.sleep(1000);
+            }
+            catch(Exception e){
+                System.out.println(e);
+            }
+            int a = 1;
+            while(true){
+                try{
+                    Thread.sleep(3000);
+                }
+                catch(Exception e){
+                    System.out.println(e);
+                }
+                a++;
+            }
+        }); 
+        System.out.println(t.getState());
+        t.start();
+        while(true){
+            try{
+                Thread.sleep(1000);
+            }
+            catch(Exception e){
+                System.out.println(e);
+            }
+            System.out.println(t.getState());
+        }
     }
 }
 
@@ -63,6 +99,7 @@ class Test{
                 }
                 catch(Exception e){
                     System.out.println(e);
+                    Thread.currentThread().interrupt();
                 }
             }
         });
