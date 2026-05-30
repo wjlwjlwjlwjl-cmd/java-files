@@ -1,5 +1,3 @@
-package JavaEE.Thread;
-
 //Thread，在 java.lang 包中，但是这个包现在是 java 默认导入的
 
 public class MyThread{

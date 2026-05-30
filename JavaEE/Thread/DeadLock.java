@@ -1,5 +1,3 @@
-package JavaEE.Thread;
-
 public class DeadLock{
     public static void main(String[] args){
         new MemoryVisibility().test();

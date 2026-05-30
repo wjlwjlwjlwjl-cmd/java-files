@@ -1,5 +1,3 @@
-package JavaEE.Thread;
-
 public class Sychronized{
     public static void main(String[] args){
         new TestSynchronized().test1();
