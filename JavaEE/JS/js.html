@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button>test button2</button>
+    <script>
+        //变量与比较符号
+        let aa = 10
+        let bb = "10"
+        console.log(aa == aa) //进行隐式类型转换的比较
+        console.log(aa === bb)
+
+        //数组
+        let arr = [1, "wjl", true]; //定义
+        console.log(arr.length); //查询长度
+        console.log(arr[1]); //查
+        arr[3] = false; //改
+        console.log(arr);
+
+        arr.splice(1, 1); //删除起始下标 + 长度
+        console.log(arr);
+
+        arr["name"] = "wjl";
+        console.log(arr); //js的数组可以启动类似哈希表的作用
+
+        //函数
+        function add(x, y){
+            console.log(x + y)
+        }
+        add(1, 2)
+        let sub = function(x, y){
+            console.log(x - y);
+        }(2, 1)
+
+        //对象
+        let info = {
+            "name": "wjl",
+            "age": 19,
+            "getinfo": function(){
+                console.log(this.name)
+                console.log(this.age)
+            }
+        }
+        console.log(info)
+        console.log(info.name)
+        console.log(info["name"])
+        info.age = 20
+        info["name"] = "xiaoming"
+        console.log(info)
+        info.getinfo()
+
+        //JQuery
+    </script>
+</body>
+</html>
