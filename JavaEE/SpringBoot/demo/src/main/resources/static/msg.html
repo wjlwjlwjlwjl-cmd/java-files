@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .container {
+            width: 350px;
+            height: 300px;
+            margin: 0 auto;
+            /* border: 1px black solid; */
+            text-align: center;
+        }
+
+        .grey {
+            color: grey;
+        }
+
+        .container .row {
+            width: 350px;
+            height: 40px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .container .row input {
+            width: 260px;
+            height: 30px;
+        }
+
+        #submit {
+            width: 350px;
+            height: 40px;
+            background-color: orange;
+            color: white;
+            border: none;
+            margin: 10px;
+            border-radius: 5px;
+            font-size: 20px;
+        }
+
+        #get_list {
+            width: 350px;
+            height: 40px;
+            background-color: orange;
+            color: white;
+            border: none;
+            margin: 10px;
+            border-radius: 5px;
+            font-size: 20px;
+        }
+    </style>
+
+</head>
+<body>
+    <script src="js/jQuery.js"></script>
+    <div id="container" class="container">
+        <h1>留言板</h1>
+        <p class="grey">publish发送留言，get_list获取所有留言</p>
+        <div class="row">
+            <span>from </span><input type="text" id="from" class="from">
+        </div>
+        <div class="row">
+            <span>to</span><input type="text" id="to" name="to">
+        </div>
+        <div class="row">
+            <span>msg</span><input type="text" id="msg" name="msg">
+        </div>
+        <input type="button" value="submit" onclick="submit()" id="submit"><br>
+        <input type="button" value="get_list" onclick="get_list()" id="get_list"><br>
+    </div>
+    <script>
+        function get_list(){
+            $.ajax({
+                type:"get",
+                url:"/msg/get_list",
+                success: function(results){
+                    console.log(results)
+                    for(var ret of results){
+                        var item = "<div>" + ret.from + "对" + ret.to + "说：" + ret.msg + "</div>"
+                        $("#container").append(item)
+                    }
+                }
+            })
+        }
+
+        function submit(){
+            var from = $("#from").val();
+            var to = $("#to").val();
+            var msg = $("#msg").val();
+            if(from == "" || to == "" || msg == ""){
+                return
+            }
+            $.ajax({
+                type: "post",
+                url: "/msg/publish",
+                data: {
+                    from: from,
+                    to: to,
+                    msg: msg
+                },
+                success: function(result){
+                    if(result){
+                        var item = "<div>" + from + "对" + to + "说：" + msg + "</div>"
+                        $("#container").append(item)
+                    }
+                    else{
+                        alert("failed to publish")
+                    }
+                } 
+            })
+        }
+    </script>
+</body>
+</html>
