@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>验证码测试</title>
+</head>
+<body>
+    <img 
+        id="codeImg"
+        src="/verify_code/get" 
+        onclick="refreshCode()"
+        style="cursor: pointer;"
+    ><br>
+
+    <input type="text" id="codeInput" placeholder="输入验证码">
+    <button onclick="check()">提交验证</button>
+
+    <script>
+        function refreshCode() {
+            document.getElementById("codeImg").src = "/verify_code/get?" + Math.random();
+        }
+
+        // 校验验证码
+        function check() {
+            const code = document.getElementById("codeInput").value.trim();
+            fetch("/verify_code/check?code=" + code)
+                .then(res => res.text())
+                .then(ret => {
+                    if (ret === "0") alert("验证成功");
+                    else if (ret === "1") alert("请填写验证码");
+                    else if (ret === "2") alert("验证码超时");
+                    else if (ret === "3") alert("验证码错误");
+                });
+        }
+    </script>
+</body>
+</html>

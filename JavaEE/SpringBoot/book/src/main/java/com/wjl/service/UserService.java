@@ -1,12 +1,12 @@
 package com.wjl.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.wjl.dao.UserDao;
 
-@Component
+@Service
 public class UserService {
     @Autowired
     private UserDao dao;

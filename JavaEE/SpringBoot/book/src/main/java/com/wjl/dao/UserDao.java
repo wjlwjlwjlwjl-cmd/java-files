@@ -2,9 +2,9 @@ package com.wjl.dao;
 
 import java.util.HashMap;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-@Component
+@Repository
 public class UserDao {
     private HashMap<String, String> users = new HashMap<>();
     public boolean exists(String name){

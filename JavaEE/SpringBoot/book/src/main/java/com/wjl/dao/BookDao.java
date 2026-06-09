@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import com.wjl.entity.BookInfo;
 import java.util.Random;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-@Component
+@Repository
+//@Component //将这个类交给SpringBoot来管理，需要是直接从SpringBoot获取即可（使用@Autowire)
 public class BookDao {
     private ArrayList<BookInfo> books = new ArrayList<>();
 
+    //造假数据来测试
     public void mockData(){
         Random random = new Random();
         for(int i = 1; i < 15; i++){

@@ -3,12 +3,12 @@ package com.wjl.service;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.wjl.dao.BookDao;
 import com.wjl.entity.BookInfo;
 
-@Component
+@Service
 public class BookService {
     @Autowired
     private BookDao dao;
