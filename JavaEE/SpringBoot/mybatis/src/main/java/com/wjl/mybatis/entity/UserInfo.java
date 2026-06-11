@@ -14,6 +14,7 @@ public class UserInfo {
     private int id;
     private String userName;
     private Integer userAge;
+    private String passWord;
 }
 
 //表现层 Controller、业务逻辑层 Service、数据层 Dao

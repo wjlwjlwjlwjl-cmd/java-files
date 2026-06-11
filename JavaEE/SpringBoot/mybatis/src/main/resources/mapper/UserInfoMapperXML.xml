@@ -1,19 +1,83 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wjl.mybatis.mapper.UserInfoMapperXML">
+    <!--只要使用$，就需要自己考虑引号的问题，并且可能包含sql注入的问题,占位-->
+    <!--当遇到比如分库分表的情况，需要将表名作为参数传入sql,就需要使用$-->
     <select id="selectAll" resultType="com.wjl.mybatis.entity.UserInfo">
         select * from user_info;
+    </select>
+
+    <select id = "sqlInjection" resultType="com.wjl.mybatis.entity.UserInfo">
+        select * from user_info where user_name='${userName}' and password='${passWord}';
     </select>
 
     <insert id="insertOne" useGeneratedKeys="true" keyColumn="id">
         insert into user_info(user_name, user_age) values(#{userName}, #{userAge});
     </insert>
 
+    <!--动态sql，解决动态插入字段的问题（不插入某个字段，不只是在value中的参数表明，也是要在列名中对应-->
+    <insert id="insertIf">
+        insert into user_info(
+            <trim prefixOverrides=",">
+                <if test="userName!=null">, user_name</if>
+                <if test="userAge!=null">, user_age</if>
+                <if test="password!=null">, password</if>
+            </trim>
+        )
+        values(
+            <trim prefixOverrides=",">
+                <if test="userName!=null">, #{userName}</if>
+                <if test="userAge!=null">, #{userAge}</if>
+                <if test="password!=null">, #{password}</if>
+            </trim>
+        )
+    </insert>
+
     <update id="updateAge">
         update user_info set user_age=#{userAge} where user_name=#{userName};
+    </update>
+
+    <!--where自动处理 and 关键字在查询字段不确定时的删除问题-->
+    <select id="selectByCondition">
+        select*from user_info
+        <where>
+            <if test="userName!=null">user_name=#{userName}</if>
+            <if test="userAge!=null">and user_age=#{userAge}</if>
+            <if test="password!=null">and password=#{password}</if>
+        </where>
+    </select>
+
+    <update id="updateByCondition">
+        update user_info
+        <set>
+            <if test="userAge!=null">user_age=#{userAge}</if>
+            <if test="password!=null">and password=#{password}</if>
+        </set>
+        where user_name=#{userName};
     </update>
 
     <delete id="deleteByName">
         delete from user_info where user_name=#{userName};
     </delete>
+    
+    <select id="selectForEach">
+        select*from user_info where id in 
+        <foreach open="(" close=")" separator="," item="id" collection="ids">
+            #{id}
+        </foreach>
+    </select>
+
+    <insert id="insertForEach">
+        insert into user_info values
+        <foreach collection="userInfos" item="userInfo" separator=", ">
+            (#{userInfo.userName}, #{userInfo.userAge}, #{userInfo.passWord}, #{userInfo.id})
+        </foreach>
+    </insert>
+
+    <sql id="select">
+        select*from user_info
+    </sql>
+    <select id="selectBySql">
+        <include refid="select"/>
+    </select>
 </mapper>
