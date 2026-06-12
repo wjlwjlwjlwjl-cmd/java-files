@@ -1,37 +1,12 @@
 spring:
   application:
-    name: book
-
-logging:
-  level:
-    root: trace # 所有目录设置日志级别
-    com: # 分目录设置日志级别
-      wjl:
-        controller: error
-  file:
-    name: logger/test.log
-  logback:
-    rollingpolicy:
-      max-file-size: 1kb
-
-server:
-  port: 9090
-my:
-  key1: 1
-  key2: true
-
-# 类
-person:
-  name: "wjl"
-  age: 19
-
-list:
-  - item1
-  - item2
-  - item3
-
-captcha:
-  width: 400
-  height: 200
-  time-limit: 60
-  unit: 1000
+    name: demo
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/book?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:mapper/*.xml
