@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 //切面类
 public class TimeAspect {
-    @Pointcut("execution(* com.example.demo.controller.*.*(..))") //切点（切点表达式）
+    @Pointcut("execution(* com.example.demo.controller.UserController.*(..))") //切点（切点表达式）
     private void pt(){}
 
     //切面

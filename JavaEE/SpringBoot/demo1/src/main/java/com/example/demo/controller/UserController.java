@@ -4,6 +4,7 @@ import com.example.demo.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,26 +26,17 @@ public class UserController {
         return true;
     }
 
+    @Transactional
     @RequestMapping("/register")
     public boolean register(String username, String password){
         int ret = service.register(username, password);
-        if(ret == 1){
-            return false;
-        }
-        else{
-            return true;
-        }
+        return ret != 1;
     }
 
     @RequestMapping("/check_login")
     public boolean checkLogin(HttpServletRequest request){
         HttpSession session = request.getSession(false);
-        if(session != null){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return session != null;
     }
 
     @RequestMapping(value="self_introduction", produces = "application/json")
