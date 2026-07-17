@@ -1,10 +1,10 @@
 {
     "mcpServers": {
-        "12306-mcp": {
-            "command": "npx",
+        "playwright": {
+            "command": "npx.cmd",
             "args": [
                 "-y",
-                "12306-mcp"
+                "@executeautomation/playwright-mcp-server"
             ]
         }
     }

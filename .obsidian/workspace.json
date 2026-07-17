@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "JavaEE/Net/ret.md",
+                "file": "JavaSE/JavaSE.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ret"
+              "title": "JavaSE"
             }
           }
         ]
@@ -78,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 200
   },
   "right": {
     "id": "81bb99905fc760da",
@@ -185,6 +185,7 @@
   },
   "active": "27755645f5baba33",
   "lastOpenFiles": [
+    "JavaSE/JVM.png",
     "JavaEE/Net/ret.mdDL8YkN.bck",
     "JavaEE/Net/ret.mdw0NePR.bck",
     "JavaEE/Net/ret.mdRKOHP3.bck",
