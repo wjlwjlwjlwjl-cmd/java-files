@@ -1,0 +1,11 @@
+spring:
+    application:
+        name: mcp-demo
+    ai:
+        dashscope:
+            api-key: ${DASHSCOPE_API_KEY}
+        mcp:
+            client:
+                request-timeout: 60000000
+            stdio:
+                servers-configuration: classpath:mcp/mcp-server-config.json
