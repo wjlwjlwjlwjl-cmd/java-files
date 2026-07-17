@@ -3,9 +3,11 @@ package com.example.alibaba_application_demo.controller;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.sql.Time;
 
+import org.apache.catalina.startup.Tool;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.prompt.ChatOptions;
@@ -16,6 +18,10 @@ import org.springframework.ai.image.ImageResponse;
 import org.springframework.ai.model.tool.ToolCallingChatOptions;
 import org.springframework.ai.tool.ToolCallback;
 import org.springframework.ai.tool.ToolCallbacks;
+import org.springframework.ai.tool.definition.ToolDefinition;
+import org.springframework.ai.tool.method.MethodToolCallback;
+import org.springframework.cglib.core.ReflectUtils;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,6 +34,7 @@ import com.alibaba.cloud.ai.dashscope.chat.DashScopeChatModel;
 import com.alibaba.cloud.ai.dashscope.image.DashScopeImageModel;
 import com.alibaba.cloud.ai.dashscope.image.DashScopeImageOptions;
 import com.example.alibaba_application_demo.tool.DateTimeTool;
+import com.example.alibaba_application_demo.tool.WeathorTool;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -74,9 +81,9 @@ public class ChatController {
 
     ////////////////////// 语音生成 //////////////////////////
     @RequestMapping("/voice/test")
-    public void voiceTest() throws IOException{
-        File output = new File(System.getProperty("user.dir") + "/output-" + new Time(0) + ".mp3");
-        SpeechSynthesisResponse response =  dashScopeSpeechSynthesisModel.call(new SpeechSynthesisPrompt("胡艺城不要学俄语、往代码里加优化空间了"));        
+    public void voiceTest(String msg) throws IOException{
+        File output = new File("/home/diinki" + "/output-" + new Time(0) + ".mp3");
+        SpeechSynthesisResponse response =  dashScopeSpeechSynthesisModel.call(new SpeechSynthesisPrompt(msg));        
         try(FileOutputStream fileOutputStream = new FileOutputStream(output)){
             ByteBuffer byteBuffer = response.getResult().getOutput().getAudio();
             fileOutputStream.write(byteBuffer.array());
@@ -100,7 +107,7 @@ public class ChatController {
         }
     }
 
-    ////////////////////// Function Calling //////////////////////////
+    ////////////////////// Function Calling ////////////////////////
     /// 注册工具：name、description、input schema
     /// 模型决策：决定是否调用工具，如果调用，会返回工具调用请求，并附带相应参数
     /// 工具调用 返回结果，llm 根据工具调用结果整理出回答
@@ -123,5 +130,21 @@ public class ChatController {
         ChatOptions chatOptions = ToolCallingChatOptions.builder().toolCallbacks(toolCallbacks).build();
         Prompt prompt = new Prompt(msg, chatOptions);
         return chatModel.call(prompt).getResult().getOutput().getText();
+    }
+
+    /// 以上为声明式定义工具
+    /// 下面为编程式定义工具（通过反射）
+    @RequestMapping("/tool/test3")
+    public String toolTest3(String msg){
+        Method method = ReflectionUtils.findMethod(WeathorTool.class, "getWeathor", String.class);
+        ToolCallback toolCallback = MethodToolCallback.builder()
+            .toolDefinition(ToolDefinition
+                .builder(method)
+                .description("获取某座城市今日天气")
+                .build())
+            .toolMethod(method)
+            .toolObject(new WeathorTool(){})    //如果相应方法为静态方法，则不需要传入对应实体类
+            .build();
+        return chatClient.prompt().tools(toolCallback).user(msg).call().content();
     }
 }
