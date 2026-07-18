@@ -1,0 +1,14 @@
+spring:
+    application:
+        name: rag-demo
+    ai:
+        dashscope:
+            api-key: ${DASHSCOPE_API_KEY}
+        vectorstore:
+            redis:
+                initialize-schema: true     # 自动创建索引结构
+                index-name: spring-ai-index # 向量索引名称
+                prefix: "embedding: "       # Redis Key 前缀
+    data:
+        redis:
+            url: redis://localhost:6379
